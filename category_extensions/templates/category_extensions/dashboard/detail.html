@@ -1,0 +1,101 @@
+{% extends "dashboard/base.html" %}
+{% load materializecss %}
+{% load i18n %}
+{% load staticfiles %}
+
+{% block title %}
+  {% if category_extension.name %}
+    {{ category_extension }}
+  {% else %}
+    {% trans "Add new category extension" context "Dashboard add category extension" %}
+  {% endif %}
+  - {% trans "Category extension" context "Dashboard category extension" %} - {{ block.super }}
+{% endblock %}
+
+{% block body_class %}body-customers{% endblock %}
+
+{% block menu_category_extensions_class %}active{% endblock %}
+
+{% block header_menu %}
+  {% url "category-extension-dashboard-list" as url %}
+  {% include "dashboard/includes/_back_link.html" with url=url %}
+{% endblock %}
+
+{% block breadcrumbs %}
+  <ul class="breadcrumbs breadcrumbs--history">
+    <li>
+      <a href="{% url "category-extension-dashboard-list" %}">
+        {% trans "Category Extensions" context "Dashboard category extensions list" %}
+      </a>
+    </li>
+    <li class="back-mobile">
+      <a href="{% url "category-extension-dashboard-list" %}">
+        <svg data-src="{% static "dashboard/images/arrow-left.svg" %}" fill="#fff" width="20px" height="20px" />
+      </a>
+    </li>
+    <li>
+      <span class="breadcrumbs--elipsed-item">
+        {% if category_extension.pk %}{{ category_extension }}{% else %}{% trans "Add new category extension" context "Dashboard add new category extension" %}{% endif %}
+      </span>
+    </li>
+  </ul>
+{% endblock %}
+
+{% block header_extra %}
+  {% if category_extension.pk %}
+    <a class="dropdown-button right" href="#" data-activates="context-menu" data-constrainwidth="false">
+      <svg data-src="{% static "dashboard/images/more-vert.svg" %}" height="24" width="24" />
+    </a>
+    <ul id="context-menu" class="dropdown-content">
+        {% if perms.category_extensions.edit %}
+      <li>
+        <a href="#base-modal" data-href="{% url 'category-extension-dashboard-delete' pk=category_extension.pk %}"
+        class="modal-trigger-custom">
+          {% trans 'Remove category extension' context 'Category extension form action' %}
+        </a>
+      </li>
+      {% endif %}
+    </ul>
+  {% endif %}
+{% endblock %}
+
+
+{% block content %}
+  <div class="row">
+    <div class="col s12 l8">
+      {% if form %}
+        <form method="post" class="card">
+          <div class="card">
+            <div class="data-table-header">
+              <h5 class="data-table-title">
+                Category Extension
+              </h5>
+            </div>
+            <div class="card-content">
+              {% csrf_token %}
+              <div class="row">
+                <div class="col s12">
+                  {{ form|materializecss }}
+                </div>
+              </div>
+            </div>
+            {% if perms.category_extensions.edit %}
+            <div class="card-action right-align">
+              <a href="{% url 'category-extension-dashboard-list' %}" class="btn-flat waves-effect">
+                {% trans "Cancel" context "Dashboard cancel action" %}
+              </a>
+              <button type="submit" class="btn waves-effect">
+                {% if category_extension.pk %}
+                  {% trans 'Update' context 'Dashboard update action' %}
+                {% else %}
+                  {% trans 'Add' context 'Dashboard add action' %}
+                {% endif %}
+              </button>
+              {% endif %}
+            </div>
+          </div>
+        </form>
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}
