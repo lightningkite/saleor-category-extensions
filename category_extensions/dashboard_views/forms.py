@@ -13,7 +13,7 @@ class CategoryExtensionForm(forms.ModelForm):
     class Meta:
         model = CategoryExtension
         verbose_name_plural = 'extension categories'
-        fields = ['category']
+        exclude = []
 
     def __init__(self, *args, **kwargs):
         super(CategoryExtensionForm, self).__init__(*args, **kwargs)
