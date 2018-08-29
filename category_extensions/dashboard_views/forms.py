@@ -3,12 +3,15 @@ from django.db.models import Q
 from django.utils.translation import pgettext_lazy
 
 from saleor.product.models import Category
+from saleor.dashboard.product.forms import RichTextField
 from ..models import CategoryExtension
 
 
 class CategoryExtensionForm(forms.ModelForm):
     category = forms.ModelChoiceField(
         queryset=Category.objects.all())
+
+    content = RichTextField()
 
     class Meta:
         model = CategoryExtension
