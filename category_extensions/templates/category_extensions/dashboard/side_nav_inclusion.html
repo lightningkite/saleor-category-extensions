@@ -6,7 +6,7 @@
     {% trans "Category Extensions" context "Dashboard category extensions list" %}
   </p>
   <ul>
-      {% if perms.category_extensions.vew %}
+      {% if perms.category_extensions.view %}
         <li class="{% block menu_category_extensions_class %}{% endblock %}">
           <a href="{% url 'category-extension-dashboard-list' %}">
             {% trans "Categories" context "Dashboard category extensions list" %}
