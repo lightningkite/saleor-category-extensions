@@ -22,7 +22,7 @@ def category_extension_list(request):
     category_extension_filter = CategoryExtensionFilter(
         request.GET, queryset=category_extensions)
     category_extensions = get_paginator_items(
-        category_extensions, settings.DASHBOARD_PAGINATE_BY, request.GET.get('page'))
+        category_extension_filter.qs, settings.DASHBOARD_PAGINATE_BY, request.GET.get('page'))
     # Call this so that cleaned_data exists on the filter_set
     category_extension_filter.form.is_valid()
     ctx = {
